@@ -1,6 +1,0 @@
-com/user/example/entity/User.class
-com/user/example/repo/UserRepository.class
-com/user/example/service/impl/UserServiceImpl.class
-com/user/example/UserExampleApplication.class
-com/user/example/service/UserService.class
-com/user/example/controller/UserController.class
