@@ -8,14 +8,13 @@ WORKDIR /app
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 
- RUN sudo apt install libmysqlclient-dev
- RUN sudo apt install mysql-client
-
-
+# Install MySQL client dependencies using apk
+RUN apk update && apk add mysql-client
 
 # Expose the port on which your Java application listens
 EXPOSE 8085
 
 # Set the entry point for the container
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+
 
