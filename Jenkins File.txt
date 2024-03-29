@@ -1,0 +1,137 @@
+pipeline {
+    agent any
+    
+    tools{
+        
+        
+        maven 'My Maven'
+    }
+    environment{
+        SCANNER_HOME=tool 'sonar-scanner'
+    }
+    stages {
+        stage('Git Checkout') {
+            steps {
+                        git 'https://github.com/Rajatk01/UserExample.git'
+            }
+              
+        }
+        stage('Compile') {
+            steps {
+                    sh "mvn compile"
+            }
+        
+        }
+        stage('sonar analysis') {
+            steps {
+                    withSonarQubeEnv('sonar-server')
+                    {
+                        sh 'mvn sonar:sonar'
+                    
+                }
+            }
+        
+        }
+        
+        
+        
+        stage('Package') {
+            steps {
+                    sh "mvn clean package -DskipTests"
+            }
+        
+        }
+        
+        stage('Dependency check') {
+            steps {
+                    dependencyCheck additionalArguments: '--scan target/', odcInstallation: 'owasp'
+                          dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        
+        }
+        
+        stage('Maven Deploy') {
+             steps {
+                
+                 configFileProvider([configFile(fileId: 'ec93954b-7e95-4ced-9516-227930ed6e55', targetLocation: '/var/lib/jenkins/workspace/Boot\\ Course@tmp', variable: 'hello')]) {
+    
+
+                        sh "mvn -s \"$hello\" clean deploy -DskipTests=true"
+
+                     }
+                
+            }
+        
+         }    
+         stage('Docker image build') {
+            steps {
+                script{
+                     withDockerRegistry(credentialsId: 'ee1b394e-706d-415b-928f-0f53c19467cb', toolName: 'docker') 
+                   
+                    {
+                     
+                      sh " docker build -t user-example . "
+                      sh " docker tag user-example rajatkumar01/users1.0:latest "
+
+                    }
+                }    
+            }
+        
+        }    
+        
+        stage('Push Docker image ') {
+            steps {
+                script{
+                    withDockerRegistry(credentialsId: 'ee1b394e-706d-415b-928f-0f53c19467cb', toolName: 'docker ') 
+                    {
+                     
+                     sh "docker push rajatkumar01/users1.0:latest"
+                     
+                     }
+                }    
+            }
+        
+        } 
+        stage('Docker user network') {
+             steps {
+                 script{
+                     withDockerRegistry(credentialsId: 'ee1b394e-706d-415b-928f-0f53c19467cb', toolName: 'docker ') 
+                     {
+                      //sh " docker network rm -f usernetwork "
+                      sh " docker network create usernetwork "
+                     
+                     }
+                 }    
+             }
+        
+         }
+        
+        stage('Docker mysql') {
+            steps {
+                script{
+                    withDockerRegistry(credentialsId: 'ee1b394e-706d-415b-928f-0f53c19467cb', toolName: 'docker ') {
+                     //sh " docker rm -f mysql "
+                     sh " docker run -d -p 3306:3306 --network=usernetwork -e MYSQL_DATABASE=boot_work -e MYSQL_USER=admin -e MYSQL_PASSWORD=root -e MYSQL_ROOT_PASSWORD=root --name=mysql mysql:latest "
+                     
+                    }
+                }    
+            }
+        
+        } 
+        
+        stage('Docker deploy') {
+            steps {
+                script{
+                    withDockerRegistry(credentialsId: 'ee1b394e-706d-415b-928f-0f53c19467cb', toolName: 'docker ') 
+                    {
+                     
+                     sh " docker run -d -p 9096:9096 --network=usernetwork -e MYSQL_HOST=mysql -e MYSQL_USER=admin -e MYSQL_PASSWORD=root -e MYSQL_DATABASE=boot_work --name=user rajatkumar01/users1.0:latest" 
+
+                     
+                    }
+                }    
+            }
+        
+        }    
+   }
+}
