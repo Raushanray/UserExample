@@ -5,6 +5,6 @@ ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 RUN wget -O mysql-connector-java-latest.jar https://repo1.maven.org/maven2/mysql/mysql-connector-java/VERSION/mysql-connector-java-VERSION.jar
 COPY mysql-connector-java-latest.jar /app.jar
-ENV CLASSPATH=/app/mysql-connector-java-latest.jar:$CLASSPATH
+ENV CLASSPATH=/app.jar/mysql-connector-java-latest.jar:$CLASSPATH
 EXPOSE 8085
 ENTRYPOINT ["java","-jar","/app.jar"]
