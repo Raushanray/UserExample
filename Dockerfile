@@ -12,7 +12,7 @@ COPY ${JAR_FILE} app.jar
 RUN apk update && apk add mysql-client
 
 # Expose the port on which your Java application listens
-EXPOSE 8085
+#EXPOSE 8085
 
 # Set the entry point for the container
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
