@@ -1,24 +1,22 @@
 appiversion: apps/v1
-kind: deployment
+kind: Deployment
 metadata: 
  name: mysql
  labels: 
   app: mysql
-
 spec:
  replicas: 4
  selector:
    matchLabels:
      app: mysql
- 
-template:
+ template:
   metadata:  
    labels: 
     app: mysql
   spec:  
    containers:
     - name: db-cntr
-      image:user mysql:latest
+      image: mysql:latest
       env:
        - name: MYSQL_DATABASE
          value: "boot_work"
@@ -38,4 +36,4 @@ template:
        persistentVolumeClaim:
          claimName: mysql-pvc
       
-      imagepullpolicy: Always
+      
