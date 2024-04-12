@@ -4,30 +4,28 @@ metadata:
  name: userapp-deployment
  labels: 
   app: userapp
-
 spec:
  replicas: 4
  selector:
    matchLabels:
      app: userapp
- 
-template:
+ template:
   metadata:  
    labels: 
     app: userapp
   spec:  
    containers:
     - name: app-cntr
-      image:user rajatkumar01/users1.0:latest
+      image: user rajatkumar01/users1.0:latest
       env:
        - name: MYSQL_HOST
          value: "mysql"
        - nmae: MYSQL_USER   
          value: "admin"
        - name: MYSQL_PASSWORD
-         value: root
+         value: "root"
        - name: MYSQL_DATABASE
-         value: boot_work
+         value: "boot_work"
       ports:
        - containerport: 9096
       imagepullpolicy: Always
