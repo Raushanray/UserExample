@@ -1,31 +1,32 @@
-appiversion: apps/v1
-kind: deployment
+apiVersion: apps/v1
+kind: Deployment
 metadata: 
- name: userapp-deployment
- labels: 
-  app: userapp
-spec:
- replicas: 4
- selector:
-   matchLabels:
-     app: userapp
- template:
-  metadata:  
-   labels: 
+  name: userapp-deployment
+  labels: 
     app: userapp
-  spec:  
-   containers:
-    - name: app-cntr
-      image: user rajatkumar01/users1.0:latest
-      env:
-       - name: MYSQL_HOST
-         value: "mysql"
-       - nmae: MYSQL_USER   
-         value: "admin"
-       - name: MYSQL_PASSWORD
-         value: "root"
-       - name: MYSQL_DATABASE
-         value: "boot_work"
-      ports:
-       - containerport: 9096
-      imagepullpolicy: Always
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: userapp
+  template:
+    metadata:  
+      labels: 
+        app: userapp
+    spec:  
+      containers:
+        - name: app-cntr
+          image: rajatkumar01/users1.0:latest
+          env:
+            - name: MYSQL_HOST
+              value: "mysql"
+            - name: MYSQL_USER   
+              value: "admin"
+            - name: MYSQL_PASSWORD
+              value: "root"
+            - name: MYSQL_DATABASE
+              value: "boot_work"
+          ports:
+            - containerPort: 9096
+          imagePullPolicy: Always
+
