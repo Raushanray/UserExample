@@ -1,0 +1,21 @@
+apiversion: v1
+kind: pod 
+metadata:
+ name: userapp-pod
+
+spec:
+ containers:
+  - name: app-cntr
+    image:user rajatkumar01/users1.0:latest
+    env:
+     - name: MYSQL_HOST
+       value: "mysql"
+     - nmae: MYSQL_USER   
+       value: "admin"
+     - name: MYSQL_PASSWORD
+       value: root
+     - name: MYSQL_DATABASE
+       value: boot_work
+    ports:
+     - containerport: 9096
+    imagepullpolicy: Always
