@@ -6,7 +6,7 @@ metadata:
 spec:
  containers:
   - name: app-cntr
-    image:user rajatkumar01/users1.0:latest
+    image: user rajatkumar01/users1.0:latest
     env:
      - name: MYSQL_HOST
        value: "mysql"
