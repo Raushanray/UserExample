@@ -1,0 +1,15 @@
+apiversion: v1
+kind: Service
+metadata:
+ name: userapp-service
+
+spec:
+ selector:
+  app: userapp
+
+ ports:
+  - protocol: Tcp
+    port: 80
+    targetport: 9096
+    nodeport: 30009
+ type: NodePort
