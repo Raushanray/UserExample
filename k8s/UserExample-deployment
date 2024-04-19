@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userexample
+  labels:
+    app: userexample
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userexample
+  template:
+    metadata:
+      labels:
+        app: userexample
+    spec:
+      containers:
+        - name: userexample
+          image: rajatkumar01/users1.0:latest
+          env:
+            - name: MYSQL_HOST
+              value: "$(POD_IP)"
+            - name: MYSQL_USER   
+              value: "admin"
+            - name: MYSQL_PASSWORD
+              value: "root"
+            - name: MYSQL_DATABASE
+              value: "boot_work"
+
+          ports:
+            - containerPort: 9096
+          imagePullPolicy: Always
