@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: UserExample
+  labels:
+    app: UserExample
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: UserExample
+  template:
+    metadata:
+      labels:
+        app: UserExample
+    spec:
+      containers:
+        - name: UserExample
+          image: raushanku90/springex.0:latest
+          env:
+            - name: MYSQL_HOST
+              value: "mysql"
+            - nmae: MYSQL_USER   
+              value: "admin"
+            - name: MYSQL_PASSWORD
+              value: "root"
+            - name: MYSQL_DATABASE
+              value: "boot_work"
+
+          ports:
+            - containerPort: 9096
+          imagePullPolicy: Always
