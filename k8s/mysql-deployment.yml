@@ -31,8 +31,8 @@ spec:
             - containerPort: 3306
           volumeMounts:
             - name: persistentstorage
-              mountPath: /data        # this is your container path from where your data will be stored
+              mountPath: /home/ubuntu/UserExample/jenkinsdata       # this is your container path from where your data will be stored
       volumes:
         - name: persistentstorage
           persistentVolumeClaim:
-            claimName: ebs-claim    # PVC claim name
+            claimName: mysql-pvc    # PVC claim name
