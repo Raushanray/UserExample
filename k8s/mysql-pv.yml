@@ -10,4 +10,4 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /home/ubuntu/UserExample/jenkinsdata
+    path: /var/lib/jenkins/workspace/mysqldata
