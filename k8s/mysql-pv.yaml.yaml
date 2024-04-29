@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mysql-pv
+  name: jenkins-pv
 spec:
   capacity:
     storage: 256Mi
@@ -10,4 +10,4 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /home/ubuntu/UserExample/mysqldata  
+    path: /home/ubuntu/jenkinsdata 
